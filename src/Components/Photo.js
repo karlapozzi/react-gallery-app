@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Image = props => (
+const Photo = props => (
   <li className="photo-container">
     <img src={props.url} alt={props.description} />
   </li>
 );
 
-export default Image;
+export default Photo;
