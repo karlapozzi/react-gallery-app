@@ -1,18 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const Nav = props => (
-  <ul>
-    <li className="main-nav">
-      <a className="main-nav" href={props.performSearch('cats')}>Cats</a>
-    </li>
-    <li className="main-nav">
-      <a className="main-nav" href={props.performSearch('dogs')}>Dogs</a>
-    </li>
-    <li className="main-nav">
-      <a className="main-nav" href={props.performSearch('birds')}>Birds</a>
-    </li>
-  </ul>
-);
+const Nav = () => (
+  <nav className="main-nav">
+    <ul>
+      <li><NavLink to="/cats">Cats</NavLink></li>
+      <li><NavLink to="/dogs">Dogs</NavLink></li>
+      <li><NavLink to="/snakes">Snakes</NavLink></li>
+    </ul>
+  </nav>
+)
 
 export default Nav;
-
