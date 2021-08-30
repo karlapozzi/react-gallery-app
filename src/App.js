@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import {
   BrowserRouter,
+  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
@@ -10,7 +11,6 @@ import {
 //App components
 import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
-import NavTopicContainer from './Components/NavTopicContainer';
 import PhotoContainer from './Components/PhotoContainer';
 import apiKey from './config.js';
 import NoPage from './Components/NoPage.js';
@@ -25,18 +25,18 @@ export default class App extends Component {
       dogs: [],
       snakes: [],
       loading: true, 
-      topic: ''
+      topic: 'Recent'
     };
   }
 
   componentDidMount() {
-    this.performSearch();
+    this.getRecent();
     this.getCatData();
     this.getDogData();
     this.getSnakeData();
   }
 
-  performSearch = (query = 'chihuahua') => {
+  performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${query}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
@@ -48,6 +48,19 @@ export default class App extends Component {
       .catch(error => {
         console.log('Error fetching and parsing data', error);
       });
+  }
+
+  getRecent = () => {
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
+    .then(response => {
+      this.setState({
+        photos: response.data.photos.photo,
+        loading: false
+      });
+    })
+    .catch(error => {
+      console.log('Error fetching and parsing data', error);
+    });
   }
 
   getCatData = () => {
@@ -96,10 +109,11 @@ export default class App extends Component {
           
             {(this.state.loading) ? <p>Loading...</p> : 
               <Switch>
-                <Route exact path="/" render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
-                <Route path="/cats" render={ () => <NavTopicContainer data={this.state.cats} topic="Cat" />} />
-                <Route path="/dogs" render={ () => <NavTopicContainer data={this.state.dogs} topic="Dog" />} />
-                <Route path="/snakes" render={ () => <NavTopicContainer data={this.state.snakes} topic="Snake" />} />
+                <Route exact path="/" render={ () => <Redirect to="/search/recent" />} />
+                <Route path={`/search/${this.state.topic}`} render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
+                <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
+                <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
+                <Route path="/snakes" render={ () => <PhotoContainer data={this.state.snakes} topic="Snake" />} />
                 <Route component={NoPage} />
               </Switch>
             }
