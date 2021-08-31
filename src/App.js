@@ -109,7 +109,8 @@ export default class App extends Component {
           
             {(this.state.loading) ? <p>Loading...</p> : 
               <Switch>
-                <Route exact path="/" render={ () => <Redirect to="/search/recent" />} />
+                <Route exact path="/" render={ () => <Redirect to="/recent" />} /> 
+                <Route path="/recent" render={ () => <PhotoContainer data={this.state.photos} topic="Recent" />} />
                 <Route path={`/search/${this.state.topic}`} render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
                 <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
