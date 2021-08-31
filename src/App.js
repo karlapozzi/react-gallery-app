@@ -7,14 +7,14 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import apiKey from './config.js';
 
 //App components
 import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
 import PhotoContainer from './Components/PhotoContainer';
-import apiKey from './config.js';
-import NoPage from './Components/NoPage.js';
 import SearchResults from './Components/SearchResults';
+import NoPage from './Components/NoPage.js';
 
 export default class App extends Component {
 
@@ -30,6 +30,7 @@ export default class App extends Component {
     };
   }
 
+  //Get all the data and start with cats search
   componentDidMount() {
     this.getData('cats');
     this.getData('dogs');
@@ -37,6 +38,7 @@ export default class App extends Component {
     this.performSearch('Cat');
   }
 
+  //Search function
   performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${query}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
@@ -51,6 +53,7 @@ export default class App extends Component {
       });
   }
 
+  //Get data function for pre-existing categories in the Nav 
   getData = (category) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${category}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
@@ -75,6 +78,7 @@ export default class App extends Component {
       });
   }
 
+  //This is used to show loading again before search results
   toggleLoading = () => {
     (this.state.loading) ? this.setState({loading: false}) : this.setState({loading: true});
   }
