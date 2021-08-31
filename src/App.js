@@ -91,11 +91,12 @@ export default class App extends Component {
                 <Route exact path="/" render={ () => <Redirect to ="/cats" />} /> 
                 <Route exact path={`/search/:topic`} render={ ({match}) => 
                   <SearchResults 
-                    search={this.performSearch} 
+                    performSearch={this.performSearch} 
                     data={this.state.photos} 
                     match={match} 
                     existingTopic={this.state.topic} 
-                    toggleLoading={this.toggleLoading} />} />
+                    toggleLoading={this.toggleLoading} />
+                } />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
                 <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
                 <Route path="/snakes" render={ () => <PhotoContainer data={this.state.snakes} topic="Snake" />} />
