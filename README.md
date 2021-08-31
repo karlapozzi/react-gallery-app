@@ -3,8 +3,7 @@ To use this app, you'll need your own non-commercial flickr API Key. If you don'
 
 After that, download the repo files and create a `config.js` file in the `src` folder. The file format should be:
 ```
-const apiKey = '{key}';
-
+const apiKey = 'YOUR API KEY';
 export default apiKey;
 ```
 
