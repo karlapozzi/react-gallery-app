@@ -1,3 +1,16 @@
+# React Gallery App
+To use this app, you'll need your own non-commercial flickr API Key. If you don't have one, create a [flickr](https://www.flickr.com/) account and then apply for an API key [here](https://www.flickr.com/services/apps/create/apply/).
+
+After that, download the repo files and create a `config.js` file in the `src` folder. The file format should be:
+```
+const apiKey = '{key}';
+
+export default apiKey;
+```
+
+
+---------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
