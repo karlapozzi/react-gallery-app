@@ -79,15 +79,15 @@ export default class App extends Component {
   }
 
   //This is used to show loading again before search results
-  toggleLoading = () => {
-    (this.state.loading) ? this.setState({loading: false}) : this.setState({loading: true});
+  showLoading = () => {
+    this.setState({loading: true});
   }
 
   render() {
     return (
       <BrowserRouter>
         <div className="App">
-            <SearchForm onSearch={this.performSearch} />
+            <SearchForm onSearch={this.performSearch} showLoading={this.showLoading} />
             <Nav />
           
             {(this.state.loading) ? <p>Loading...</p> : 
@@ -95,11 +95,10 @@ export default class App extends Component {
                 <Route exact path="/" render={ () => <Redirect to ="/cats" />} /> 
                 <Route exact path={`/search/:topic`} render={ ({match}) => 
                   <SearchResults 
-                    performSearch={this.performSearch} 
+                    performSearch={this.performSearch}
                     data={this.state.photos} 
-                    match={match} 
                     existingTopic={this.state.topic} 
-                    toggleLoading={this.toggleLoading} />
+                    match={match} />
                 } />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
                 <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
