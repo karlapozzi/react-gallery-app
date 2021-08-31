@@ -25,24 +25,24 @@ export default class App extends Component {
       dogs: [],
       snakes: [],
       loading: true, 
-      topic: 'Recent'
+      topic: 'Cat'
     };
   }
 
   componentDidMount() {
-    this.getRecent();
-    this.getCatData();
-    this.getDogData();
-    this.getSnakeData();
+    this.getData('cats');
+    this.getData('dogs');
+    this.getData('snakes');
+    this.performSearch();
   }
 
-  performSearch = (query) => {
+  performSearch = (query = 'cats') => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${query}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
+          topic: query,
           photos: response.data.photos.photo,
-          loading: false,
-          topic: query
+          loading: false
         });
       })
       .catch(error => {
@@ -50,49 +50,24 @@ export default class App extends Component {
       });
   }
 
-  getRecent = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
-    .then(response => {
-      this.setState({
-        photos: response.data.photos.photo,
-        loading: false
-      });
-    })
-    .catch(error => {
-      console.log('Error fetching and parsing data', error);
-    });
-  }
-
-  getCatData = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=cats&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
+  getData = (category) => {
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${category}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
-        this.setState({
-          cats: response.data.photos.photo
-        });
-      })
-      .catch(error => {
-        console.log('Error fetching and parsing data', error);
-      });
-  }
-
-  getDogData = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=dogss&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
-      .then(response => {
-        this.setState({
-          dogs: response.data.photos.photo
-        });
-      })
-      .catch(error => {
-        console.log('Error fetching and parsing data', error);
-      });
-  }
-
-  getSnakeData = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=snakes&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
-      .then(response => {
-        this.setState({
-          snakes: response.data.photos.photo
-        });
+        if (category === 'cats') {
+          this.setState({
+            cats: response.data.photos.photo
+          });
+        }
+        if (category === 'dogs') {
+          this.setState({
+            dogs: response.data.photos.photo
+          });
+        }
+        if (category === 'snakes') {
+          this.setState({
+            snakes: response.data.photos.photo
+          });
+        }
       })
       .catch(error => {
         console.log('Error fetching and parsing data', error);
@@ -109,11 +84,10 @@ export default class App extends Component {
           
             {(this.state.loading) ? <p>Loading...</p> : 
               <Switch>
-                <Route exact path="/" render={ () => <Redirect to="/recent" />} /> 
-                <Route path="/recent" render={ () => <PhotoContainer data={this.state.photos} topic="Recent" />} />
-                <Route path={`/search/${this.state.topic}`} render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
+                <Route exact path="/" render={ () => <Redirect to ="/cats" />} /> 
+                <Route exact path={`/search/${this.state.topic}`} render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
-                <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
+                <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />}/>
                 <Route path="/snakes" render={ () => <PhotoContainer data={this.state.snakes} topic="Snake" />} />
                 <Route component={NoPage} />
               </Switch>
