@@ -75,8 +75,11 @@ export default class App extends Component {
       });
   }
 
-  render() {
+  toggleLoading = () => {
+    (this.state.loading) ? this.setState({loading: false}) : this.setState({loading: true});
+  }
 
+  render() {
     return (
       <BrowserRouter>
         <div className="App">
@@ -86,9 +89,15 @@ export default class App extends Component {
             {(this.state.loading) ? <p>Loading...</p> : 
               <Switch>
                 <Route exact path="/" render={ () => <Redirect to ="/cats" />} /> 
-                <Route exact path={`/search/:topic`} render={ ({match}) => <SearchResults search={this.performSearch} data={this.state.photos} match={match} existingTopic={this.state.topic}/>} />
+                <Route exact path={`/search/:topic`} render={ ({match}) => 
+                  <SearchResults 
+                    search={this.performSearch} 
+                    data={this.state.photos} 
+                    match={match} 
+                    existingTopic={this.state.topic} 
+                    toggleLoading={this.toggleLoading} />} />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
-                <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />}/>
+                <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />} />
                 <Route path="/snakes" render={ () => <PhotoContainer data={this.state.snakes} topic="Snake" />} />
                 <Route component={NoPage} />
               </Switch>
