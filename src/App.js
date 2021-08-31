@@ -34,10 +34,10 @@ export default class App extends Component {
     this.getData('cats');
     this.getData('dogs');
     this.getData('snakes');
-    this.performSearch();
+    this.performSearch('Cat');
   }
 
-  performSearch = (query = 'cats') => {
+  performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${query}&per_page=24&api_key=${apiKey}&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
