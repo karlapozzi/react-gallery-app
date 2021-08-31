@@ -14,6 +14,7 @@ import Nav from './Components/Nav';
 import PhotoContainer from './Components/PhotoContainer';
 import apiKey from './config.js';
 import NoPage from './Components/NoPage.js';
+import SearchResults from './Components/SearchResults';
 
 export default class App extends Component {
 
@@ -85,7 +86,7 @@ export default class App extends Component {
             {(this.state.loading) ? <p>Loading...</p> : 
               <Switch>
                 <Route exact path="/" render={ () => <Redirect to ="/cats" />} /> 
-                <Route exact path={`/search/${this.state.topic}`} render={ () => <PhotoContainer data={this.state.photos} topic={this.state.topic} />} />
+                <Route exact path={`/search/:topic`} render={ ({match}) => <SearchResults search={this.performSearch} data={this.state.photos} match={match} existingTopic={this.state.topic}/>} />
                 <Route path="/cats" render={ () => <PhotoContainer data={this.state.cats} topic="Cat" />} />
                 <Route path="/dogs" render={ () => <PhotoContainer data={this.state.dogs} topic="Dog" />}/>
                 <Route path="/snakes" render={ () => <PhotoContainer data={this.state.snakes} topic="Snake" />} />
