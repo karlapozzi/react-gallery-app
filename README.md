@@ -1,4 +1,7 @@
 # React Gallery App
+
+This is my seventh Treehouse Techdegree project: An image gallery app created with React, create-react-app, and flickr's API. It includes 3 pre-existing image categories and a search bar to find images for any other topic. I'm going for an "Exceeds Expectations" grade, so my app also includes browser navigation that works for the search route, a 404-like error page, a loading indicator, and a no matches message. 
+
 To use this app, you'll need your own non-commercial flickr API Key. If you don't have one, create a [flickr](https://www.flickr.com/) account and then apply for an API key [here](https://www.flickr.com/services/apps/create/apply/).
 
 After that, download the repo files and create a `config.js` file in the `src` folder. The file format should be:
